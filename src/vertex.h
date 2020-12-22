@@ -1,9 +1,9 @@
-#ifndef VERTEX_H
-#define VERTEX_H
+#ifndef PONG_VERTEX_H
+#define PONG_VERTEX_H
 
 typedef struct{
   float x;
   float y;
 } vertex_t;
 
-#endif //VERTEX_H
+#endif //PONG_ERTEX_H

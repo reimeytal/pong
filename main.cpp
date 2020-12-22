@@ -17,46 +17,43 @@ int main(){
     return 1;
   }
 
+
+  glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
   window = glfwCreateWindow(PONG_RESOLUTION, "Pong", NULL, NULL);
   if(!window){
     return 1;
   }
 
   glfwMakeContextCurrent(window);
-  //glfwSwapInterval(1);
+  glfwSwapInterval(1);
 
   glewInit();
 
-  unsigned int bo[2];
+  glEnable(GL_CULL_FACE);
 
-  glGenBuffers(2, bo);
-  glBindBuffer(GL_ARRAY_BUFFER, bo[0]);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bo[1]);
+  pong::Paddle::init();
 
-  vertex_t vertices[3] = {
-    { 0.0f,  1.0f},
-    {-0.5f, -1.0f},
-    { 0.5f, -1.0f},
-  };
+  pong::Paddle p1 = pong::Paddle();
 
-  unsigned int indices[3] = {
-    0, 1, 2
-  };
+  gml::mat4 projectionMatrix = gml::orthographic_projection(-8.0f, 8.0f, -4.5f, 4.5f, 0.1f, 100.0f);
 
-  glBufferData(GL_ARRAY_BUFFER,         3*sizeof(vertex_t),     vertices, GL_STATIC_DRAW);
-  glBufferData(GL_ELEMENT_ARRAY_BUFFER, 3*sizeof(unsigned int), indices,  GL_STATIC_DRAW);
+  ShaderInfo vsinfo("shaders/vs.glsl", GL_VERTEX_SHADER);
+  ShaderInfo fsinfo("shaders/fs.glsl", GL_FRAGMENT_SHADER);
 
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(vertex_t), 0);
+  Shader s(2, &vsinfo, &fsinfo);
+
+  s.bind();
 
   while(!glfwWindowShouldClose(window)){
       glClear(GL_COLOR_BUFFER_BIT);
 
-      glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+      p1.draw(s, projectionMatrix);
 
       glfwSwapBuffers(window);
       glfwPollEvents();
   }
+
+  pong::Paddle::uninit();
 
   glfwTerminate();
   return 0;

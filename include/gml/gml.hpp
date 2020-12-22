@@ -6,6 +6,7 @@
 
 
 //GML C++ version include files
+#include <gml/vector/vector2.hpp>
 #include <gml/vector/vector3.hpp>
 #include <gml/vector/vector4.hpp>
 

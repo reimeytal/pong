@@ -43,7 +43,7 @@ namespace gml{
       return vec4(gmlVec4Negate(this->to_gmlVec4()));
     }
 
-    //Mathematical operations on other 3 component vectors
+    //Mathematical operations on other 4 component vectors
     vec4 operator+(vec4& otherVec){
       return vec4(gmlVec4Add(this->to_gmlVec4(), otherVec.to_gmlVec4()));
     }

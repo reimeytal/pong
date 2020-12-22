@@ -21,9 +21,9 @@ public:
   ~Shader();
   void bind() const;
   void unbind() const;
-  void useUniform1i(const char* name, int x);
-  void useUniform4f(const char* name, float x, float y, float z=0, float w=1);
-  void useUniformMat4f(const char* name, const gml::mat4& matrix);
+  void useUniform1i(const char* name, int x) const;
+  void useUniform4f(const char* name, float x, float y, float z=0, float w=1) const;
+  void useUniformMat4f(const char* name, const gml::mat4& matrix) const;
 
   Shader(const Shader& s) = delete;
 };

@@ -77,6 +77,7 @@ Shader::Shader(unsigned int numOfShaders, ...)
     glGetProgramiv(program, GL_INFO_LOG_LENGTH, &result);
     char* infolog = (char*)malloc(result*sizeof(char));
     glGetProgramInfoLog(program, result, &result, infolog);
+    std::cout<<"Linker InfoLog: "<<infolog<<std::endl;
     free(infolog);
 
     for(unsigned int i=0;i<numOfShaders;i++){
@@ -96,15 +97,15 @@ Shader::Shader(unsigned int numOfShaders, ...)
   va_end(args);
 }
 
-void Shader::useUniform4f(const char* name, float x, float y, float z, float w){
+void Shader::useUniform4f(const char* name, float x, float y, float z, float w) const{
   glUniform4f(glGetUniformLocation(program, name), x, y, z, w);
 }
 
-void Shader::useUniform1i(const char* name, int x){
+void Shader::useUniform1i(const char* name, int x) const{
   glUniform1i(glGetUniformLocation(program, name), x);
 }
 
-void Shader::useUniformMat4f(const char* name, const gml::mat4& matrix){
+void Shader::useUniformMat4f(const char* name, const gml::mat4& matrix) const{
   glUniformMatrix4fv(glGetUniformLocation(program, name), 1, GL_FALSE, (float*)&matrix);
 }
 
