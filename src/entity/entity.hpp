@@ -4,13 +4,9 @@
 #include <gml/gml.hpp>
 #include "../vertex.h"
 #include "../shader/shader.hpp"
+#include "../bounding-box/bounding-box.hpp"
 
 namespace pong{
-  struct BoundingBox{
-    gml::vec2 startingPoint;
-    gml::vec2 size;
-  };
-
   class Entity{
   protected:
     gml::mat4* modelMatrix;
@@ -19,8 +15,7 @@ namespace pong{
     ~Entity();
 
     virtual void draw(const Shader&, const gml::mat4&) const = 0;
-    //virtual BoundingBox getBoundingBox() const = 0;
-    //bool collides_with(const Entity&) const;
+    virtual BoundingBox getBoundingBox() const = 0;
   };
 }
 

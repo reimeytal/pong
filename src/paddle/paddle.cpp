@@ -4,6 +4,7 @@
 #include "../shader/shader.hpp"
 #include "../vertex.h"
 #include "../entity/entity.hpp"
+#include "../bounding-box/bounding-box.hpp"
 #include "paddle.hpp"
 
 unsigned int pong::Paddle::vbo = 0;
@@ -61,6 +62,13 @@ namespace pong{
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 
     glBindVertexArray(0);
+  }
+
+  BoundingBox Paddle::getBoundingBox() const{
+    gml::vec4 tr   = (*modelMatrix) * gml::vec4(-1.0f, 4.5f, 0.0f, 1.0f);
+    gml::vec4 size = (*modelMatrix) * gml::vec4( 2.0f, 9.0f, 0.0f, 1.0f);
+
+    return BoundingBox(gml::vec2(tr.x, tr.y), gml::vec2(size.x, size.y));
   }
 
   void Paddle::uninit(){

@@ -25,11 +25,11 @@ namespace gml{
     vec3(gmlVec3 vec)
       :x(vec.x), y(vec.y), z(vec.z) {}
 
-    inline float dot_product(vec3& otherVec) const{
+    inline float dot_product(vec3 otherVec) const{
       return gmlVec3DotProduct(this->to_gmlVec3(), otherVec.to_gmlVec3());
     }
 
-    inline vec3 cross_product(vec3& otherVec) const{
+    inline vec3 cross_product(vec3 otherVec) const{
       return vec3(gmlVec3CrossProduct(this->to_gmlVec3(), otherVec.to_gmlVec3()));
     }
 
@@ -39,24 +39,24 @@ namespace gml{
     }
 
     //Mathematical operations on other 3 component vectors
-    vec3 operator+ (vec3& otherVec){
+    vec3 operator+ (vec3 otherVec){
       return vec3(gmlVec3Add(this->to_gmlVec3(), otherVec.to_gmlVec3()));
     }
 
     //Mathematical operations on scalars
-    vec3 operator+ (float& f){
+    vec3 operator+ (float f){
       return vec3(gmlVec3Addf(this->to_gmlVec3(), f));
     }
 
-    vec3 operator- (float& f){
+    vec3 operator- (float f){
       return vec3(gmlVec3Subractf(this->to_gmlVec3(), f));
     }
 
-    vec3 operator* (float& f){
+    vec3 operator* (float f){
       return vec3(gmlVec3Multiplyf(this->to_gmlVec3(), f));
     }
 
-    vec3 operator/ (float& f){
+    vec3 operator/ (float f){
       return vec3(gmlVec3Dividef(this->to_gmlVec3(), f));
     }
   };

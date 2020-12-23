@@ -24,7 +24,7 @@ namespace gml{
     vec2(gmlVec2 vec)
       :x(vec.x), y(vec.y) {}
 
-    inline float dot_product(vec2& otherVec) const{
+    inline float dot_product(vec2 otherVec) const{
       return gmlVec2DotProduct(this->to_gmlVec2(), otherVec.to_gmlVec2());
     }
 
@@ -34,24 +34,24 @@ namespace gml{
     }
 
     //Mathematical operations on other 2 component vectors
-    vec2 operator+ (vec2& otherVec){
+    vec2 operator+ (vec2 otherVec){
       return vec2(gmlVec2Add(this->to_gmlVec2(), otherVec.to_gmlVec2()));
     }
 
     //Mathematical operations on scalars
-    vec2 operator+ (float& f){
+    vec2 operator+ (float f){
       return vec2(gmlVec2Addf(this->to_gmlVec2(), f));
     }
 
-    vec2 operator- (float& f){
+    vec2 operator- (float f){
       return vec2(gmlVec2Subractf(this->to_gmlVec2(), f));
     }
 
-    vec2 operator* (float& f){
+    vec2 operator* (float f){
       return vec2(gmlVec2Multiplyf(this->to_gmlVec2(), f));
     }
 
-    vec2 operator/ (float& f){
+    vec2 operator/ (float f){
       return vec2(gmlVec2Dividef(this->to_gmlVec2(), f));
     }
   };

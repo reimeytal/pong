@@ -44,24 +44,24 @@ namespace gml{
     }
 
     //Mathematical operations on other 4 component vectors
-    vec4 operator+(vec4& otherVec){
+    vec4 operator+(vec4 otherVec){
       return vec4(gmlVec4Add(this->to_gmlVec4(), otherVec.to_gmlVec4()));
     }
 
     //Mathematical operations on scalars
-    vec4 operator+(float& f){
+    vec4 operator+(float f){
       return vec4(gmlVec4Addf(this->to_gmlVec4(), f));
     }
 
-    vec4 operator-(float& f){
+    vec4 operator-(float f){
       return vec4(gmlVec4Subractf(this->to_gmlVec4(), f));
     }
 
-    vec4 operator*(float& f){
+    vec4 operator*(float f){
       return vec4(gmlVec4Multiplyf(this->to_gmlVec4(), f));
     }
 
-    vec4 operator/(float& f){
+    vec4 operator/(float f){
       return vec4(gmlVec4Dividef(this->to_gmlVec4(), f));
     }
   };

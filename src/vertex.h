@@ -6,4 +6,4 @@ typedef struct{
   float y;
 } vertex_t;
 
-#endif //PONG_ERTEX_H
+#endif //PONG_VERTEX_H

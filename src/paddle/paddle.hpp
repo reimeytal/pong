@@ -19,6 +19,7 @@ namespace pong{
     static void uninit();
 
     void draw(const Shader&, const gml::mat4&) const;
+    BoundingBox getBoundingBox() const;
   };
 
 }

@@ -30,7 +30,7 @@ namespace gml{
       gmlTranslateMat4((gmlMat4*)this, {x, y, z});
     }
 
-    inline void translate(vec3& vec){
+    inline void translate(vec3 vec){
       gmlTranslateMat4((gmlMat4*)this, *((gmlVec3*)&vec));
     }
 
@@ -38,7 +38,7 @@ namespace gml{
       gmlScaleMat4((gmlMat4*)this, {x, y, z});
     }
 
-    inline void scale(vec3& vec){
+    inline void scale(vec3 vec){
       gmlScaleMat4((gmlMat4*)this, *((gmlVec3*)&vec));
     }
 
@@ -50,19 +50,19 @@ namespace gml{
       gmlPrintMat4((gmlMat4*)this);
     }
 
-    mat4 operator+(mat4& otherMat){
+    mat4 operator+(mat4 otherMat){
       mat4 ret(this->major);
       gmlAddMat4((gmlMat4*)this, (gmlMat4*)&otherMat, (gmlMat4*)&ret);
       return ret;
     }
 
-    mat4 operator*(mat4& otherMat){
+    mat4 operator*(mat4 otherMat){
       mat4 ret(this->major);
       gmlMultiplyMat4((gmlMat4*)this, (gmlMat4*)&otherMat, (gmlMat4*)&ret);
       return ret;
     }
 
-    vec4 operator*(vec4& otherVec){
+    vec4 operator*(vec4 otherVec){
       return vec4(gmlMultiplyMat4Vec4((gmlMat4*)this, (gmlVec4*)&otherVec));
     }
 
