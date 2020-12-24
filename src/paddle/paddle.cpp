@@ -1,5 +1,6 @@
 #include <gml/gml.hpp>
 #include <gl/glew.h>
+#include <cstdint>
 
 #include "../shader/shader.hpp"
 #include "../vertex.h"
@@ -44,7 +45,7 @@ namespace pong{
   }
 
   Paddle::Paddle(){
-    modelMatrix->scale(0.15f, 0.15f, 1.0f);
+    modelMatrix.scale(0.15f, 0.15f, 1.0f);
   }
 
   void Paddle::draw(const Shader& shader, const gml::mat4& projectionMatrix) const{
@@ -57,18 +58,29 @@ namespace pong{
     shader.bind();
 
     shader.useUniformMat4f("projectionMatrix", projectionMatrix);
-    shader.useUniformMat4f("modelMatrix", *modelMatrix);
+    shader.useUniformMat4f("modelMatrix", modelMatrix);
 
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
 
     glBindVertexArray(0);
   }
 
-  BoundingBox Paddle::getBoundingBox() const{
-    gml::vec4 tr   = (*modelMatrix) * gml::vec4(-1.0f, 4.5f, 0.0f, 1.0f);
-    gml::vec4 size = (*modelMatrix) * gml::vec4( 2.0f, 9.0f, 0.0f, 1.0f);
+  BoundingBox Paddle::getBoundingBox(){
+    gml::vec4 tr   = modelMatrix * gml::vec4(-1.0f, 4.5f, 0.0f, 1.0f);
+    gml::vec4 size = modelMatrix * gml::vec4( 2.0f, 9.0f, 0.0f, 1.0f);
 
     return BoundingBox(gml::vec2(tr.x, tr.y), gml::vec2(size.x, size.y));
+  }
+
+  void Paddle::move(uint8_t moveDirection){
+    switch(moveDirection){
+      case PADDLE_UP:
+        modelMatrix.translate(0.0f, 0.1f, 0.0f);
+        break;
+      case PADDLE_DOWN:
+        modelMatrix.translate(0.0f, -0.1f, 0.0f);
+        break;
+    }
   }
 
   void Paddle::uninit(){

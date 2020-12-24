@@ -13,11 +13,11 @@ namespace pong{
     inline gml::vec2 getStartingPoint() const{
       return startingPoint;
     }
-    
+
     inline gml::vec2 getSize() const{
       return size;
     }
-    //bool collides_with(const BoundingBox&) const;
+    bool collides_with(const BoundingBox&) const;
   };
 }
 

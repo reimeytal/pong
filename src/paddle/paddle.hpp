@@ -2,10 +2,14 @@
 #define PONG_PADDLE_HPP
 
 #include <gml/gml.hpp>
+#include <cstdint>
 
 #include "../shader/shader.hpp"
 #include "../vertex.h"
 #include "../entity/entity.hpp"
+
+#define PADDLE_UP   1
+#define PADDLE_DOWN 2
 
 namespace pong{
 
@@ -19,7 +23,8 @@ namespace pong{
     static void uninit();
 
     void draw(const Shader&, const gml::mat4&) const;
-    BoundingBox getBoundingBox() const;
+    BoundingBox getBoundingBox();
+    void move(uint8_t);
   };
 
 }

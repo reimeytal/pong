@@ -12,6 +12,34 @@
 
 static GLFWwindow* window;
 
+void move(pong::Paddle& p1, pong::Paddle& p2){
+  //p1 movement
+  if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+    p1.move(PADDLE_DOWN);
+  } else if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+    p1.move(PADDLE_DOWN);
+  }
+  
+  if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+    p1.move(PADDLE_UP);
+  } else if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+    p1.move(PADDLE_UP);
+  }
+
+  //p2 movement
+  if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
+    p2.move(PADDLE_DOWN);
+  } else if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
+    p2.move(PADDLE_DOWN);
+  }
+
+  if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
+    p2.move(PADDLE_UP);
+  } else if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
+    p2.move(PADDLE_UP);
+  }
+}
+
 int main(){
   if(!glfwInit()){
     return 1;
@@ -34,6 +62,10 @@ int main(){
   pong::Paddle::init();
 
   pong::Paddle p1 = pong::Paddle();
+  pong::Paddle p2 = pong::Paddle();
+
+  p1.setPosition(gml::vec3(-7.25f, 0.0f, 0.0f));
+  p2.setPosition(gml::vec3( 7.25f, 0.0f, 0.0f));
 
   gml::mat4 projectionMatrix = gml::orthographic_projection(-8.0f, 8.0f, -4.5f, 4.5f, 0.1f, 100.0f);
 
@@ -48,6 +80,9 @@ int main(){
       glClear(GL_COLOR_BUFFER_BIT);
 
       p1.draw(s, projectionMatrix);
+      p2.draw(s, projectionMatrix);
+
+      move(p1, p2);
 
       glfwSwapBuffers(window);
       glfwPollEvents();

@@ -9,13 +9,13 @@
 namespace pong{
   class Entity{
   protected:
-    gml::mat4* modelMatrix;
+    gml::mat4 modelMatrix;
   public:
     Entity();
-    ~Entity();
 
     virtual void draw(const Shader&, const gml::mat4&) const = 0;
-    virtual BoundingBox getBoundingBox() const = 0;
+    virtual BoundingBox getBoundingBox() = 0;
+    void setPosition(gml::vec3);
   };
 }
 

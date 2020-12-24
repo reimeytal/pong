@@ -4,12 +4,14 @@
 
 namespace pong{
   Entity::Entity()
-    :modelMatrix(new gml::mat4(GML_COLUMN_MAJOR))
+    :modelMatrix(gml::mat4(GML_COLUMN_MAJOR))
   {
-    modelMatrix->make_identity_matrix();
+    modelMatrix.make_identity_matrix();
   }
 
-  Entity::~Entity(){
-    delete modelMatrix;
+  void Entity::setPosition(gml::vec3 pos){
+    modelMatrix(0, 3) = pos.x;
+    modelMatrix(1, 3) = pos.y;
+    modelMatrix(2, 3) = pos.z;
   }
 }
