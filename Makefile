@@ -6,7 +6,7 @@ LIBPATH = -L../lib/
 LIBRARIES = -lglfw3 -lglew32 -lgdi32 -lopengl32
 
 main: main.cpp paddle.o entity.o ball.o shader.o bounding-box.o src/vertex.h
-	${COMPILER} -o ${EXECUTABLE_NAME} main.cpp *.o ${INCLUDE_PATH} ${FLAGS} ${LIBPATH} ${LIBRARIES}
+	${COMPILER} -o ${EXECUTABLE_NAME} main.cpp *.o -static-libstdc++ ${INCLUDE_PATH} ${FLAGS} ${LIBPATH} ${LIBRARIES}
 
 paddle.o: src/vertex.h src/paddle/paddle.cpp src/paddle/paddle.hpp entity.o
 	${COMPILER} -c src/paddle/paddle.cpp ${INCLUDE_PATH} ${FLAGS}

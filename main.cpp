@@ -12,31 +12,39 @@
 
 static GLFWwindow* window;
 
-void move(pong::Paddle& p1, pong::Paddle& p2){
+void move(pong::Paddle& p1, pong::Paddle& p2, pong::BoundingBox& top, pong::BoundingBox& bottom){
   //p1 movement
-  if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
-    p1.move(PADDLE_DOWN);
-  } else if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
-    p1.move(PADDLE_DOWN);
+  if(!p1.getBoundingBox().collides_with(bottom)){
+    if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS){
+      p1.move(PADDLE_DOWN);
+    } else if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS){
+      p1.move(PADDLE_DOWN);
+    }
   }
-  
-  if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
-    p1.move(PADDLE_UP);
-  } else if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
-    p1.move(PADDLE_UP);
+
+  if(!p1.getBoundingBox().collides_with(top)){
+    if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS){
+      p1.move(PADDLE_UP);
+    } else if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS){
+      p1.move(PADDLE_UP);
+    }
   }
 
   //p2 movement
-  if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
-    p2.move(PADDLE_DOWN);
-  } else if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
-    p2.move(PADDLE_DOWN);
+  if(!p2.getBoundingBox().collides_with(bottom)){
+    if(glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS){
+      p2.move(PADDLE_DOWN);
+    } else if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS){
+      p2.move(PADDLE_DOWN);
+    }
   }
 
-  if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
-    p2.move(PADDLE_UP);
-  } else if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
-    p2.move(PADDLE_UP);
+  if(!p2.getBoundingBox().collides_with(top)){
+    if(glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS){
+      p2.move(PADDLE_UP);
+    } else if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS){
+      p2.move(PADDLE_UP);
+    }
   }
 }
 
@@ -44,7 +52,6 @@ int main(){
   if(!glfwInit()){
     return 1;
   }
-
 
   glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
   window = glfwCreateWindow(PONG_RESOLUTION, "Pong", NULL, NULL);
@@ -64,6 +71,9 @@ int main(){
   pong::Paddle p1 = pong::Paddle();
   pong::Paddle p2 = pong::Paddle();
 
+  pong::BoundingBox top    = pong::BoundingBox(gml::vec2(-8.0f,  4.5f), gml::vec2(16.0f, 1.0f));
+  pong::BoundingBox bottom = pong::BoundingBox(gml::vec2(-8.0f, -5.5f), gml::vec2(16.0f, 1.0f));
+
   p1.setPosition(gml::vec3(-7.25f, 0.0f, 0.0f));
   p2.setPosition(gml::vec3( 7.25f, 0.0f, 0.0f));
 
@@ -82,7 +92,7 @@ int main(){
       p1.draw(s, projectionMatrix);
       p2.draw(s, projectionMatrix);
 
-      move(p1, p2);
+      move(p1, p2, top, bottom);
 
       glfwSwapBuffers(window);
       glfwPollEvents();

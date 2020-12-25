@@ -66,10 +66,10 @@ namespace pong{
   }
 
   BoundingBox Paddle::getBoundingBox(){
-    gml::vec4 tr   = modelMatrix * gml::vec4(-1.0f, 4.5f, 0.0f, 1.0f);
-    gml::vec4 size = modelMatrix * gml::vec4( 2.0f, 9.0f, 0.0f, 1.0f);
+    gml::vec4 bl   = modelMatrix * gml::vec4(-1.0f, -4.5f, 0.0f, 1.0f); //bottom left corner
+    gml::vec4 size = gml::vec4(2.0f * modelMatrix(0, 0), 9.0f * modelMatrix(1, 1), 0.0f, 1.0f);
 
-    return BoundingBox(gml::vec2(tr.x, tr.y), gml::vec2(size.x, size.y));
+    return BoundingBox(gml::vec2(bl.x, bl.y), gml::vec2(size.x, size.y)); //size is the bottom left corner
   }
 
   void Paddle::move(uint8_t moveDirection){

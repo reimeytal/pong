@@ -1,6 +1,7 @@
 #ifndef PONG_BOUNDING_BOX_HPP
 #define PONG_BOUNDING_BOX_HPP
 #include <gml/gml.hpp>
+#include <string>
 
 namespace pong{
   class BoundingBox{
@@ -18,6 +19,8 @@ namespace pong{
       return size;
     }
     bool collides_with(const BoundingBox&) const;
+
+    std::string to_string() const;
   };
 }
 
