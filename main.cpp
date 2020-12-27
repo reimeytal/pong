@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <gml/gml.hpp>
-#include <iostream>
 
 #include "src/vertex.h"
 #include "src/ball/ball.hpp"
@@ -64,12 +63,15 @@ int main(){
 
   glewInit();
 
-  glEnable(GL_CULL_FACE);
+  //glEnable(GL_CULL_FACE);
 
   pong::Paddle::init();
+  pong::Ball::init();
 
   pong::Paddle p1 = pong::Paddle();
   pong::Paddle p2 = pong::Paddle();
+
+  pong::Ball ball = pong::Ball();
 
   pong::BoundingBox top    = pong::BoundingBox(gml::vec2(-8.0f,  4.5f), gml::vec2(16.0f, 1.0f));
   pong::BoundingBox bottom = pong::BoundingBox(gml::vec2(-8.0f, -5.5f), gml::vec2(16.0f, 1.0f));
@@ -92,6 +94,8 @@ int main(){
       p1.draw(s, projectionMatrix);
       p2.draw(s, projectionMatrix);
 
+      ball.draw(s, projectionMatrix);
+
       move(p1, p2, top, bottom);
 
       glfwSwapBuffers(window);
@@ -99,6 +103,7 @@ int main(){
   }
 
   pong::Paddle::uninit();
+  pong::Ball::uninit();
 
   glfwTerminate();
   return 0;

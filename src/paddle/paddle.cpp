@@ -45,7 +45,7 @@ namespace pong{
   }
 
   Paddle::Paddle(){
-    modelMatrix.scale(0.15f, 0.15f, 1.0f);
+    modelMatrix.scale(0.175f, 0.175f, 1.0f);
   }
 
   void Paddle::draw(const Shader& shader, const gml::mat4& projectionMatrix) const{

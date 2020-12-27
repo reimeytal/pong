@@ -1,5 +1,4 @@
 #include <gml/gml.hpp>
-#include <string>
 #include "bounding-box.hpp"
 
 namespace pong{
@@ -11,9 +10,5 @@ namespace pong{
       other.getStartingPoint().x   + other.getSize().x >= this->startingPoint.x      &&
       this->startingPoint.y        + this->size.y      >= other.getStartingPoint().y &&
       other.getStartingPoint().y   + other.getSize().y >= this->startingPoint.y;
-  }
-
-  std::string BoundingBox::to_string() const{
-    return "(" + std::to_string(startingPoint.x) + ", " + std::to_string(startingPoint.y) + ") (" + std::to_string(size.x) + ", " + std::to_string(size.y) + ")";
   }
 }
