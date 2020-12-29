@@ -63,7 +63,7 @@ int main(){
 
   glewInit();
 
-  //glEnable(GL_CULL_FACE);
+  glEnable(GL_CULL_FACE);
 
   pong::Paddle::init();
   pong::Ball::init();
@@ -91,11 +91,11 @@ int main(){
   while(!glfwWindowShouldClose(window)){
       glClear(GL_COLOR_BUFFER_BIT);
 
-      p1.draw(s, projectionMatrix);
-      p2.draw(s, projectionMatrix);
-
+      p1.draw  (s, projectionMatrix);
+      p2.draw  (s, projectionMatrix);
       ball.draw(s, projectionMatrix);
 
+      ball.move(p1, p2, top, bottom);
       move(p1, p2, top, bottom);
 
       glfwSwapBuffers(window);

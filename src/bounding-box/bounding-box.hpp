@@ -8,6 +8,8 @@ namespace pong{
   private:
     gml::vec2 startingPoint;
     gml::vec2 size;
+
+    friend class Ball;
   public:
     BoundingBox(gml::vec2, gml::vec2);
 

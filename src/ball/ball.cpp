@@ -2,6 +2,7 @@
 #include <vector>
 #include <cstdint>
 #include <cmath>
+#include <iostream>
 #include <gml/gml.hpp>
 
 #include "../bounding-box/bounding-box.hpp"
@@ -10,6 +11,7 @@
 
 #define PONG_BALL_NUM_OF_POINTS 30
 #define PONG_BALL_RADIUS 0.5f
+#define PONG_BALL_SPEED 0.125f
 
 namespace pong{
 
@@ -66,7 +68,9 @@ namespace pong{
     glDeleteBuffers(1, &ibo);
   }
 
-  Ball::Ball(){
+  Ball::Ball()
+    :direction_vector(gml::vec2(PONG_BALL_SPEED, 0.0f))
+  {
     modelMatrix.scale(0.70f, 0.70f, 1.0f);
   }
 
@@ -87,6 +91,33 @@ namespace pong{
     glBindVertexArray(0);
   }
 
-  BoundingBox Ball::getBoundingBox() {}
+  void Ball::move(Paddle& p1, Paddle& p2, BoundingBox& top, BoundingBox& bottom){
+    if(getBoundingBox().collides_with(p1.getBoundingBox())){
+      float equation = gml::to_radians(getBoundingBox().startingPoint.y - p1.getBoundingBox().startingPoint.y/p1.getBoundingBox().size.y);
+      direction_vector = gml::vec2(cos(equation) * PONG_BALL_SPEED, sin(equation) * PONG_BALL_SPEED * 20);
+      if(direction_vector.x < 0){
+          direction_vector.x *= -1;
+      }
+    }
+
+    if(getBoundingBox().collides_with(p2.getBoundingBox()) && direction_vector.x > 0){
+      float equation = -1 * gml::to_radians(getBoundingBox().startingPoint.y - p2.getBoundingBox().startingPoint.y/p2.getBoundingBox().size.y);
+      direction_vector = gml::vec2(cos(equation) * PONG_BALL_SPEED, sin(equation) * PONG_BALL_SPEED * 20);
+      if(direction_vector.x > 0){
+          direction_vector.x *= -1;
+      }
+    }
+
+    if(getBoundingBox().collides_with(top) || getBoundingBox().collides_with(bottom)){
+      direction_vector.y *= -1;
+    }
+
+    modelMatrix.translate(gml::vec3(GML_VEC2_TO_PARAMS(direction_vector), 0.0f));
+  }
+
+  BoundingBox Ball::getBoundingBox() {
+    gml::vec4 bl = modelMatrix * gml::vec4(-PONG_BALL_RADIUS, -PONG_BALL_RADIUS, 0.0f, 1.0f);
+    return BoundingBox(gml::vec2(bl.x, bl.y), gml::vec2(PONG_BALL_RADIUS * 2 * modelMatrix(0, 0), PONG_BALL_RADIUS * 2 * modelMatrix(1, 1)));
+  }
 
 }
