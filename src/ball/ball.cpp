@@ -11,7 +11,7 @@
 
 #define PONG_BALL_NUM_OF_POINTS 30
 #define PONG_BALL_RADIUS 0.5f
-#define PONG_BALL_SPEED 0.125f
+#define PONG_BALL_SPEED 8.f
 
 namespace pong{
 
@@ -69,7 +69,7 @@ namespace pong{
   }
 
   Ball::Ball()
-    :direction_vector(gml::vec2(PONG_BALL_SPEED, 0.0f))
+    :direction_vector(gml::vec2(0.0f, 0.0f))
   {
     modelMatrix.scale(0.70f, 0.70f, 1.0f);
   }
@@ -97,7 +97,7 @@ namespace pong{
     modelMatrix(1, 3) = 0.0f;
   }
 
-  void Ball::move(Paddle& p1, Paddle& p2, BoundingBox& top, BoundingBox& bottom){
+  void Ball::move(Paddle& p1, Paddle& p2, BoundingBox& top, BoundingBox& bottom, double deltatime){
     if(getBoundingBox().collides_with(p1.getBoundingBox())){
       float equation = gml::to_radians(getBoundingBox().startingPoint.y - p1.getBoundingBox().startingPoint.y/p1.getBoundingBox().size.y);
       direction_vector = gml::vec2(cos(equation) * PONG_BALL_SPEED, sin(equation) * PONG_BALL_SPEED * 20);
@@ -118,7 +118,7 @@ namespace pong{
       direction_vector.y *= -1;
     }
 
-    modelMatrix.translate(gml::vec3(GML_VEC2_TO_PARAMS(direction_vector), 0.0f));
+    modelMatrix.translate(gml::vec3(direction_vector.x * deltatime, direction_vector.y * deltatime, 0.0f));
   }
 
   BoundingBox Ball::getBoundingBox() {

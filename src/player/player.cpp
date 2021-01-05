@@ -16,7 +16,6 @@ namespace pong{
     if(ball.getBoundingBox().collides_with(opponentGoal)){
       score++;
       ball.reset();
-      std::cout<<(int)score<<std::endl;
     }
   }
 }

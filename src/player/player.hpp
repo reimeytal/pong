@@ -14,8 +14,8 @@ namespace pong{
     public:
       Paddle paddle;
 
-      Player(gml::vec3 paddlePos, BoundingBox opponentGoal);
-      void checkGoal(Ball& ball);
+      Player(gml::vec3, BoundingBox);
+      void checkGoal(Ball&);
     };
 }
 

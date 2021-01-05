@@ -8,6 +8,8 @@
 #include "../bounding-box/bounding-box.hpp"
 #include "paddle.hpp"
 
+#define PONG_PADDLE_SPEED 7.f
+
 unsigned int pong::Paddle::vbo = 0;
 unsigned int pong::Paddle::ibo = 0;
 unsigned int pong::Paddle::vao = 0;
@@ -72,13 +74,13 @@ namespace pong{
     return BoundingBox(gml::vec2(bl.x, bl.y), gml::vec2(size.x, size.y)); //size is the bottom left corner
   }
 
-  void Paddle::move(uint8_t moveDirection){
+  void Paddle::move(uint8_t moveDirection, float deltatime){
     switch(moveDirection){
       case PADDLE_UP:
-        modelMatrix.translate(0.0f, 0.1f, 0.0f);
+        modelMatrix.translate(0.0f,  PONG_PADDLE_SPEED * deltatime, 0.0f);
         break;
       case PADDLE_DOWN:
-        modelMatrix.translate(0.0f, -0.1f, 0.0f);
+        modelMatrix.translate(0.0f, -PONG_PADDLE_SPEED * deltatime, 0.0f);
         break;
     }
   }

@@ -24,7 +24,7 @@ namespace pong{
 
     void draw(const Shader&, const gml::mat4&) const;
     BoundingBox getBoundingBox();
-    void move(uint8_t);
+    void move(uint8_t, float);
   };
 
 }
