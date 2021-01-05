@@ -91,6 +91,12 @@ namespace pong{
     glBindVertexArray(0);
   }
 
+  void Ball::reset(){
+    direction_vector = gml::vec2(PONG_BALL_SPEED, 0.0f);
+    modelMatrix(0, 3) = 0.0f;
+    modelMatrix(1, 3) = 0.0f;
+  }
+
   void Ball::move(Paddle& p1, Paddle& p2, BoundingBox& top, BoundingBox& bottom){
     if(getBoundingBox().collides_with(p1.getBoundingBox())){
       float equation = gml::to_radians(getBoundingBox().startingPoint.y - p1.getBoundingBox().startingPoint.y/p1.getBoundingBox().size.y);
@@ -101,7 +107,7 @@ namespace pong{
     }
 
     if(getBoundingBox().collides_with(p2.getBoundingBox()) && direction_vector.x > 0){
-      float equation = -1 * gml::to_radians(getBoundingBox().startingPoint.y - p2.getBoundingBox().startingPoint.y/p2.getBoundingBox().size.y);
+      float equation = gml::to_radians(getBoundingBox().startingPoint.y - p2.getBoundingBox().startingPoint.y/p2.getBoundingBox().size.y);
       direction_vector = gml::vec2(cos(equation) * PONG_BALL_SPEED, sin(equation) * PONG_BALL_SPEED * 20);
       if(direction_vector.x > 0){
           direction_vector.x *= -1;

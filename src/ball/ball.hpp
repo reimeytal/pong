@@ -20,6 +20,7 @@ namespace pong{
 
     void draw(const Shader&, const gml::mat4&) const;
     void move(Paddle& p1, Paddle& p2, BoundingBox& top, BoundingBox& bottom);
+    void reset();
     BoundingBox getBoundingBox();
   };
 

@@ -1,8 +1,8 @@
 #include <GL/glew.h>
+#include <gml/gml.hpp>
+
 #include <cstdarg>
 #include <iostream>
-#include <gml/gml.hpp>
-#include <string>
 #include "shader.hpp"
 
 static const char* fileToString(const char* filename){

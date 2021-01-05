@@ -6,6 +6,7 @@
 #include "src/ball/ball.hpp"
 #include "src/paddle/paddle.hpp"
 #include "src/shader/shader.hpp"
+#include "src/player/player.hpp"
 
 #define PONG_RESOLUTION 1080, 720
 
@@ -68,16 +69,13 @@ int main(){
   pong::Paddle::init();
   pong::Ball::init();
 
-  pong::Paddle p1 = pong::Paddle();
-  pong::Paddle p2 = pong::Paddle();
+  pong::Player p1 = pong::Player(gml::vec3(-7.25f, 0.0f, 0.0f), pong::BoundingBox(gml::vec2( 7.25f, -4.5f), gml::vec2(1.0f, 9.0f)));
+  pong::Player p2 = pong::Player(gml::vec3( 7.25f, 0.0f, 0.0f), pong::BoundingBox(gml::vec2(-8.25f, -4.5f), gml::vec2(1.0f, 9.0f)));
 
   pong::Ball ball = pong::Ball();
 
   pong::BoundingBox top    = pong::BoundingBox(gml::vec2(-8.0f,  4.5f), gml::vec2(16.0f, 1.0f));
   pong::BoundingBox bottom = pong::BoundingBox(gml::vec2(-8.0f, -5.5f), gml::vec2(16.0f, 1.0f));
-
-  p1.setPosition(gml::vec3(-7.25f, 0.0f, 0.0f));
-  p2.setPosition(gml::vec3( 7.25f, 0.0f, 0.0f));
 
   gml::mat4 projectionMatrix = gml::orthographic_projection(-8.0f, 8.0f, -4.5f, 4.5f, 0.1f, 100.0f);
 
@@ -91,12 +89,15 @@ int main(){
   while(!glfwWindowShouldClose(window)){
       glClear(GL_COLOR_BUFFER_BIT);
 
-      p1.draw  (s, projectionMatrix);
-      p2.draw  (s, projectionMatrix);
-      ball.draw(s, projectionMatrix);
+      p1.paddle.draw(s, projectionMatrix);
+      p2.paddle.draw(s, projectionMatrix);
+      ball.draw     (s, projectionMatrix);
 
-      ball.move(p1, p2, top, bottom);
-      move(p1, p2, top, bottom);
+      ball.move(p1.paddle, p2.paddle, top, bottom);
+      move     (p1.paddle, p2.paddle, top, bottom);
+
+      p1.checkGoal(ball);
+      p2.checkGoal(ball);
 
       glfwSwapBuffers(window);
       glfwPollEvents();
