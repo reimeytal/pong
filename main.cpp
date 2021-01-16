@@ -85,13 +85,18 @@ int main(){
 
   gml::mat4 projectionMatrix = gml::orthographic_projection(-8.0f, 8.0f, -4.5f, 4.5f, 0.1f, 100.0f);
 
-  ShaderInfo vsinfo     ("./shaders/vs.glsl",       GL_VERTEX_SHADER);
-  ShaderInfo fsinfo     ("./shaders/fs.glsl",       GL_FRAGMENT_SHADER);
-  ShaderInfo scorevsinfo("./shaders/score_vs.glsl", GL_VERTEX_SHADER);
-  ShaderInfo scorefsinfo("./shaders/score_fs.glsl", GL_FRAGMENT_SHADER);
+  ShaderInfo sInfo[2] = {
+    ShaderInfo("./shaders/vs.glsl",       GL_VERTEX_SHADER),
+    ShaderInfo("./shaders/fs.glsl",       GL_FRAGMENT_SHADER)
+  };
 
-  Shader s(2, &vsinfo, &fsinfo);
-  Shader scoreShader(2, &scorevsinfo, &scorefsinfo);
+  ShaderInfo scoreShaderInfo[2] = {
+    ShaderInfo("./shaders/score_vs.glsl", GL_VERTEX_SHADER),
+    ShaderInfo("./shaders/score_fs.glsl", GL_FRAGMENT_SHADER)
+  };
+
+  Shader s(2, sInfo);
+  Shader scoreShader(2, scoreShaderInfo);
 
   s.bind();
 

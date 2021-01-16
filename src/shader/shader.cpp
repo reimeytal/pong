@@ -1,7 +1,6 @@
 #include <GL/glew.h>
 #include <gml/gml.hpp>
 
-#include <cstdarg>
 #include <iostream>
 #include "shader.hpp"
 
@@ -19,20 +18,19 @@ static const char* fileToString(const char* filename){
   return ret;
 }
 
-ShaderInfo::ShaderInfo(std::string filename, GLenum type)
-  :filename(filename.c_str()), type(type) {}
+ShaderInfo::ShaderInfo(const char* filename, GLenum type)
+  :filename(filename), type(type) {}
 
-Shader::Shader(unsigned int numOfShaders, ...)
+Shader::Shader(unsigned int numOfShaders, ShaderInfo* shaderInfos)
   :program(glCreateProgram())
 {
-  va_list args;
-  va_start(args, numOfShaders);
   int result;
-
   unsigned int shaders[numOfShaders];
+  ShaderInfo* cur_shader;
+  unsigned int i;
 
-  for(unsigned int i=0;i<numOfShaders;i++){
-    ShaderInfo* cur_shader = va_arg(args, ShaderInfo*);
+  for(i=0;i<numOfShaders;i++){
+    cur_shader = &(shaderInfos[i]);
 
     shaders[i] = glCreateShader(cur_shader->type);
 
@@ -93,8 +91,6 @@ Shader::Shader(unsigned int numOfShaders, ...)
     glDetachShader(program, shaders[i]);
     glDeleteShader(shaders[i]);
   }
-
-  va_end(args);
 }
 
 void Shader::useUniform4f(const char* name, float x, float y, float z, float w) const{
