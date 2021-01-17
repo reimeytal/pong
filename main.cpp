@@ -74,9 +74,17 @@ int main(){
 
   pong::Paddle::init();
   pong::Ball::init();
+  pong::Score::init();
 
-  pong::Player p1 = pong::Player(gml::vec3(-7.25f, 0.0f, 0.0f), pong::BoundingBox(gml::vec2( 9.0f, -4.5f), gml::vec2(1.0f, 9.0f)));
-  pong::Player p2 = pong::Player(gml::vec3( 7.25f, 0.0f, 0.0f), pong::BoundingBox(gml::vec2(-10.f, -4.5f), gml::vec2(1.0f, 9.0f)));
+  pong::Player p1 = pong::Player(gml::vec3(-7.25f, 0.0f, 0.0f),
+    pong::BoundingBox(gml::vec2(9.0f, -4.5f), gml::vec2(1.0f, 9.0f)),
+    gml::vec3(-1.0f, 3.5f, 0.0f)
+  );
+
+  pong::Player p2 = pong::Player(gml::vec3(7.25f, 0.0f, 0.0f),
+    pong::BoundingBox(gml::vec2(-10.f, -4.5f), gml::vec2(1.0f, 9.0f)),
+    gml::vec3(1.0f, 3.5f, 0.0f)
+  );
 
   pong::Ball ball = pong::Ball();
 
@@ -104,9 +112,11 @@ int main(){
       start = std::chrono::high_resolution_clock::now();
       glClear(GL_COLOR_BUFFER_BIT);
 
-      p1.paddle.draw(s, projectionMatrix);
-      p2.paddle.draw(s, projectionMatrix);
-      ball.draw     (s, projectionMatrix);
+      p1.paddle.draw(s,           projectionMatrix);
+      p2.paddle.draw(s,           projectionMatrix);
+      ball.draw     (s,           projectionMatrix);
+      p1.scoreClass.draw (scoreShader, projectionMatrix);
+      p2.scoreClass.draw (scoreShader, projectionMatrix);
 
       ball.move(p1.paddle, p2.paddle, top, bottom, deltatime.count());
       move     (p1.paddle, p2.paddle, top, bottom);
@@ -126,6 +136,7 @@ int main(){
 
   pong::Paddle::uninit();
   pong::Ball::uninit();
+  pong::Score::uninit();
 
   glfwTerminate();
   return 0;

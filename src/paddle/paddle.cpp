@@ -51,7 +51,6 @@ namespace pong{
   }
 
   void Paddle::draw(const Shader& shader, const gml::mat4& projectionMatrix) const{
-    shader.bind();
     glBindVertexArray(Paddle::vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, Paddle::vbo);

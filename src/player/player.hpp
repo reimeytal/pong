@@ -4,6 +4,7 @@
 #include <cstdint>
 #include "../paddle/paddle.hpp"
 #include "../ball/ball.hpp"
+#include "../score/score.hpp"
 #include "../bounding-box/bounding-box.hpp"
 
 namespace pong{
@@ -13,9 +14,10 @@ namespace pong{
       BoundingBox opponentGoal;
     public:
       Paddle paddle;
+      Score scoreClass;
 
-      Player(gml::vec3, BoundingBox);
-      void checkGoal(Ball&);
+      Player(gml::vec3, BoundingBox, gml::vec3);
+      bool checkGoal(Ball&);
     };
 }
 

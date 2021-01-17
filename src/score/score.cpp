@@ -1,16 +1,20 @@
 #include <GL/glew.h>
 #include <gml/gml.hpp>
+#include <stb_image.h>
+
 #include <string>
 #include <cstdint>
-#include <stb_image.h>
+
 #include "score.hpp"
 #include "../vertex.h"
 #include "../shader/shader.hpp"
+#include "../bounding-box/bounding-box.hpp"
 
 namespace pong{
   unsigned int Score::vao;
   unsigned int Score::vbo;
   unsigned int Score::ibo;
+  unsigned int Score::nextID = 0;
   unsigned int Score::textures[12];
 
   void Score::init(){
@@ -46,8 +50,8 @@ namespace pong{
       uint8_t* textureData = stbi_load(std::string("./textures/"+std::to_string(i)+".png").c_str(), &width, &height, nullptr, 4);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
       glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+      glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
       glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
 
@@ -62,15 +66,45 @@ namespace pong{
     glBindVertexArray(0);
   }
 
-  void Score::setScore(unsigned int score){
+  Score::Score(gml::vec3 scaleVec, gml::vec3 positionVec)
+  :scoreID(Score::nextID) {
+    glActiveTexture(GL_TEXTURE0+scoreID);
+    glBindTexture(GL_TEXTURE_2D, textures[0]);
 
+    modelMatrix.scale(scaleVec);
+    modelMatrix.translate(positionVec);
+    Score::nextID++;
+  }
+
+  void Score::setScore(unsigned int score){
+    if(score > 11){
+      return;
+    }
+    glActiveTexture(GL_TEXTURE0 + scoreID);
+    glBindTexture(GL_TEXTURE_2D, Score::textures[score]);
   }
 
   void Score::draw(const Shader& s, const gml::mat4& projectionMatrix) const{
+    s.bind();
+    glBindVertexArray(Score::vao);
 
+    s.useUniformMat4f("projectionMatrix", projectionMatrix);
+    s.useUniformMat4f("modelMatrix",      modelMatrix);
+    s.useUniform1i   ("scoreTexture",     scoreID);
+
+    glBindBuffer(GL_ARRAY_BUFFER,         Score::vbo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, Score::ibo);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, NULL);
+    glBindVertexArray(0);
+  }
+
+  BoundingBox Score::getBoundingBox(){
+    return BoundingBox(gml::vec2(0.f, 0.f), gml::vec2(0.f, 0.f));
   }
 
   void Score::uninit(){
+    glDeleteTextures(12, textures);
     glDeleteBuffers(2, &vbo);
     glDeleteVertexArrays(1, &vao);
   }
