@@ -78,12 +78,12 @@ int main(){
 
   pong::Player p1 = pong::Player(gml::vec3(-7.25f, 0.0f, 0.0f),
     pong::BoundingBox(gml::vec2(9.0f, -4.5f), gml::vec2(1.0f, 9.0f)),
-    gml::vec3(-1.0f, 3.5f, 0.0f)
+    gml::vec3(-1.5f, 3.5f, 0.0f)
   );
 
   pong::Player p2 = pong::Player(gml::vec3(7.25f, 0.0f, 0.0f),
     pong::BoundingBox(gml::vec2(-10.f, -4.5f), gml::vec2(1.0f, 9.0f)),
-    gml::vec3(1.0f, 3.5f, 0.0f)
+    gml::vec3(0.5f, 3.5f, 0.0f)
   );
 
   pong::Ball ball = pong::Ball();
@@ -109,29 +109,41 @@ int main(){
   s.bind();
 
   while(!glfwWindowShouldClose(window)){
-      start = std::chrono::high_resolution_clock::now();
-      glClear(GL_COLOR_BUFFER_BIT);
+    start = std::chrono::high_resolution_clock::now();
+    glClear(GL_COLOR_BUFFER_BIT);
 
-      p1.paddle.draw(s,           projectionMatrix);
-      p2.paddle.draw(s,           projectionMatrix);
-      ball.draw     (s,           projectionMatrix);
-      p1.scoreClass.draw (scoreShader, projectionMatrix);
-      p2.scoreClass.draw (scoreShader, projectionMatrix);
+    p1.scoreClass.draw(scoreShader, projectionMatrix);
+    p2.scoreClass.draw(scoreShader, projectionMatrix);
+    p1.paddle.draw    (s,           projectionMatrix);
+    p2.paddle.draw    (s,           projectionMatrix);
+    ball.draw         (s,           projectionMatrix);
 
+    if(!p1.has_won() && !p2.has_won()){
       ball.move(p1.paddle, p2.paddle, top, bottom, deltatime.count());
       move     (p1.paddle, p2.paddle, top, bottom);
 
-      p1.checkGoal(ball);
-      p2.checkGoal(ball);
-
-      glfwSwapBuffers(window);
-      glfwPollEvents();
-
-      deltatime = std::chrono::high_resolution_clock::now() - start;
-      if(!play){
-        play = true;
-        ball.reset();
+      if(p1.checkGoal(ball)){
+        p2.paddle.reset();
       }
+      if(p2.checkGoal(ball)){
+        p1.paddle.reset();
+      }
+
+      if(p1.has_won()){
+        p2.scoreClass.setScore(11);
+      }
+      if(p2.has_won()){
+        p1.scoreClass.setScore(11);
+      }
+    }
+    glfwSwapBuffers(window);
+    glfwPollEvents();
+
+    deltatime = std::chrono::high_resolution_clock::now() - start;
+    if(!play){
+      play = true;
+      ball.reset();
+    }
   }
 
   pong::Paddle::uninit();

@@ -8,7 +8,7 @@
 #include "../bounding-box/bounding-box.hpp"
 #include "paddle.hpp"
 
-#define PONG_PADDLE_SPEED 7.f
+#define PONG_PADDLE_SPEED 6.f
 
 unsigned int pong::Paddle::vbo = 0;
 unsigned int pong::Paddle::ibo = 0;
@@ -82,6 +82,10 @@ namespace pong{
         modelMatrix.translate(0.0f, -PONG_PADDLE_SPEED * deltatime, 0.0f);
         break;
     }
+  }
+
+  void Paddle::reset(){
+    modelMatrix(1, 3) = 0.0f;
   }
 
   void Paddle::uninit(){

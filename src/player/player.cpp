@@ -16,9 +16,8 @@ namespace pong{
     if(ball.getBoundingBox().collides_with(opponentGoal)){
       score++;
       scoreClass.setScore(score);
+      paddle.reset();
       ball.reset();
-    }
-    if(score == 10){
       return true;
     }
     return false;

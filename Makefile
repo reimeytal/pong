@@ -1,8 +1,8 @@
 COMPILER = g++
 EXECUTABLE_NAME = pong.exe
 FLAGS = -DGLEW_STATIC
-INCLUDE_PATH = -I../include/ -Iinclude/
-LIBPATH = -L../lib/
+INCLUDE_PATH = -Iinclude/
+LIBPATH = -Llib/
 LIBRARIES = -static-libstdc++ -static-libgcc -lglfw3 -lglew32 -lgdi32 -lopengl32
 
 main: main.cpp paddle.o entity.o ball.o shader.o player.o bounding-box.o stb_image.o score.o src/vertex.h

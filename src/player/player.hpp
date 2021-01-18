@@ -18,6 +18,10 @@ namespace pong{
 
       Player(gml::vec3, BoundingBox, gml::vec3);
       bool checkGoal(Ball&);
+
+      inline bool has_won() const{
+        return score == 10;
+      }
     };
 }
 
